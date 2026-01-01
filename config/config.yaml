@@ -1,0 +1,120 @@
+# ISAR Image Analysis - Configuration File
+# =========================================
+
+# Project Settings
+project:
+  name: "ISAR Image Analysis"
+  version: "1.0.0"
+  description: "Deep Learning model for ISAR image classification of automotive targets"
+
+# Data Settings
+data:
+  # Path to dataset (user should update this)
+  data_dir: "data/raw"
+  processed_dir: "data/processed"
+  
+  # Image settings
+  image_size: 128
+  channels: 1  # ISAR images are typically grayscale
+  
+  # Data split ratios
+  train_ratio: 0.7
+  val_ratio: 0.15
+  test_ratio: 0.15
+  
+  # Augmentation settings
+  augmentation:
+    enabled: true
+    rotation_range: 15
+    horizontal_flip: true
+    vertical_flip: false
+    brightness_range: [0.8, 1.2]
+    noise_factor: 0.05
+
+# Model Settings
+model:
+  # Architecture options: 'cnn', 'resnet18', 'resnet34', 'efficientnet', 'vit'
+  architecture: "resnet18"
+  
+  # Number of classes (automotive targets)
+  num_classes: 5
+  
+  # Pretrained weights
+  pretrained: true
+  
+  # Dropout rate
+  dropout: 0.3
+  
+  # Feature extraction
+  feature_dim: 512
+
+# Training Settings
+training:
+  # Batch size
+  batch_size: 32
+  
+  # Number of epochs
+  epochs: 100
+  
+  # Learning rate
+  learning_rate: 0.001
+  
+  # Learning rate scheduler
+  scheduler:
+    type: "cosine"  # Options: 'step', 'cosine', 'plateau'
+    step_size: 30
+    gamma: 0.1
+    patience: 10
+  
+  # Optimizer
+  optimizer: "adamw"  # Options: 'adam', 'adamw', 'sgd'
+  weight_decay: 0.0001
+  
+  # Early stopping
+  early_stopping:
+    enabled: true
+    patience: 15
+    min_delta: 0.001
+  
+  # Checkpointing
+  checkpoint_dir: "checkpoints"
+  save_best_only: true
+
+# Evaluation Settings
+evaluation:
+  metrics:
+    - "accuracy"
+    - "precision"
+    - "recall"
+    - "f1_score"
+    - "confusion_matrix"
+    - "roc_auc"
+  
+  # Visualization
+  visualize:
+    confusion_matrix: true
+    roc_curve: true
+    precision_recall_curve: true
+    grad_cam: true
+
+# Logging Settings
+logging:
+  level: "INFO"
+  log_dir: "logs"
+  tensorboard: true
+  wandb:
+    enabled: false
+    project: "isar-classification"
+    entity: null
+
+# Report Settings
+reports:
+  output_dir: "reports"
+  format: "pdf"  # Options: 'pdf', 'html', 'both'
+  include_visualizations: true
+
+# GUI Settings
+gui:
+  theme: "dark"
+  port: 8501
+  host: "0.0.0.0"
