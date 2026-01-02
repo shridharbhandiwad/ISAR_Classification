@@ -512,7 +512,7 @@ def show_evaluation_page():
                 model = create_model(architecture, num_classes=num_classes, pretrained=False)
                 
                 # Load checkpoint
-                checkpoint = torch.load(checkpoint_path, map_location='cpu')
+                checkpoint = torch.load(checkpoint_path, map_location='cpu', weights_only=False)
                 model.load_state_dict(checkpoint['model_state_dict'])
                 
                 st.session_state.model = model
